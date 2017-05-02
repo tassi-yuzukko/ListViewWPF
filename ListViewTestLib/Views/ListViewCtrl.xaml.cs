@@ -1,4 +1,5 @@
-﻿using System;
+﻿using ListViewTestLib.ViewModels;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -23,6 +24,13 @@ namespace ListViewTestLib.Views
         public ListViewCtrl()
         {
             InitializeComponent();
-        }
-    }
+
+			this.DataContext = new ListViewCtrlViewModel();
+		}
+
+		private void Window_Loaded(object sender, RoutedEventArgs e)
+		{
+			LVC.DataContext = (this.DataContext as ListViewCtrlViewModel).Items;
+		}
+	}
 }

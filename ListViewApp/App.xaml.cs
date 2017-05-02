@@ -13,5 +13,15 @@ namespace ListViewApp
 	/// </summary>
 	public partial class App : Application
 	{
+		/// <summary>
+		/// ！！これ重要！！
+		/// RaiseCanExecuteChanged などのUIDispatcherを使用する処理で必要
+		/// </summary>
+		/// <param name="e"></param>
+		protected override void OnStartup(StartupEventArgs e)
+		{
+			base.OnStartup(e);
+			Livet.DispatcherHelper.UIDispatcher = this.Dispatcher;
+		}
 	}
 }

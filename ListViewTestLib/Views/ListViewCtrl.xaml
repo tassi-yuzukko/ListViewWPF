@@ -5,12 +5,64 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:ListViewTestLib.Views"
              mc:Ignorable="d" 
-             d:DesignHeight="300" d:DesignWidth="300">
+             d:DesignHeight="300" d:DesignWidth="300"
+             Loaded="Window_Loaded">
+    <UserControl.Resources>
+        <Style x:Key="lineGridStyle" TargetType="{x:Type ListViewItem}">
+            <!-- セル内の余白部分をクックしても行選択になるようにする -->
+            <Setter Property="HorizontalContentAlignment" Value="Stretch" />
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type ListViewItem}">
+                        <Grid Name="background">
+                            <ContentControl Name="foreground">
+                                <GridViewRowPresenter Name="rowPresenter"/>
+                            </ContentControl>
+                            <ItemsControl ItemsSource="{Binding ElementName=rowPresenter, Path=Columns}">
+                                <ItemsControl.ItemsPanel>
+                                    <ItemsPanelTemplate>
+                                        <StackPanel Orientation="Horizontal" />
+                                    </ItemsPanelTemplate>
+                                </ItemsControl.ItemsPanel>
+
+                                <ItemsControl.ItemTemplate>
+                                    <DataTemplate>
+                                        <Border Margin="1,0,0,0"
+                                        BorderBrush="Gray"
+                                        BorderThickness="0,0,1,1" 
+                                        Width="{Binding ActualWidth}"/>
+                                    </DataTemplate>
+                                </ItemsControl.ItemTemplate>
+                            </ItemsControl>
+                        </Grid>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsSelected" Value="True">
+                                <Setter TargetName="background"
+                                Property="Background"
+                                Value="{x:Static SystemColors.HighlightBrush}" />
+                                <Setter TargetName="foreground" 
+                                Property="Foreground"
+                                Value="{x:Static SystemColors.HighlightTextBrush}" />
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+    </UserControl.Resources>
     <Grid>
-        <ListView HorizontalAlignment="Stretch" Height="auto" VerticalAlignment="Stretch" Width="auto" Grid.RowSpan="2">
+        <ListView x:Name="LVC" HorizontalAlignment="Stretch" Height="auto" VerticalAlignment="Stretch" Width="auto" Grid.RowSpan="2" ItemsSource="{Binding}" ItemContainerStyle="{StaticResource lineGridStyle}">
             <ListView.View>
                 <GridView>
-                    <GridViewColumn/>
+                    <GridViewColumn DisplayMemberBinding="{Binding Path=LogDate,StringFormat=MM/dd\ HH:mm:ss.fff}">
+                        <GridViewColumnHeader Content="日時" Tag="Date" />
+                    </GridViewColumn>
+                    <GridViewColumn DisplayMemberBinding="{Binding Path=LogType}">
+                        <GridViewColumnHeader Content="ログ種別" Tag="Type" />
+                    </GridViewColumn>
+                    <GridViewColumn DisplayMemberBinding="{Binding Path=LogStr}">
+                        <GridViewColumnHeader Content="内容" Tag="LogStr" />
+                    </GridViewColumn>
                 </GridView>
             </ListView.View>
         </ListView>
