@@ -3,10 +3,11 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:lv="clr-namespace:ListViewTestLib.Views;assembly=ListViewTestLib"
         xmlns:local="clr-namespace:ListViewApp.Views"
         mc:Ignorable="d"
-        Title="MainWindow" Height="350" Width="525">
+        Title="MainWindow" Height="336.757" Width="436.081">
     <Grid>
-        
+        <lv:ListViewCtrl x:Name="LVC"/>
     </Grid>
 </Window>
