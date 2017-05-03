@@ -15,7 +15,14 @@ namespace ListViewTestLib.ViewModels
 
 		public ListViewCtrlViewModel()
 		{
-			TaskEx.Run(() => Items.Add(new ListViewItems { LogDate = DateTime.Now, LogType = ListViewLogType.recv, LogStr = "aaaaaa", }));
+		}
+
+		public void AddLog(ListViewItems rowData)
+		{
+			if(rowData != null)
+			{
+				Items?.Add(rowData);
+			}
 		}
 	}
 }

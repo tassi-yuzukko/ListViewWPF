@@ -1,4 +1,6 @@
-﻿using System;
+﻿using ListViewApp.ViewModels;
+using ListViewTestLib.ViewModels;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -23,6 +25,10 @@ namespace ListViewApp.Views
 		public MainWindow()
 		{
 			InitializeComponent();
+
+			this.DataContext = new MainWindowViewModel((this.LVC.DataContext as ListViewCtrlViewModel));
+
+			
 		}
 	}
 }
