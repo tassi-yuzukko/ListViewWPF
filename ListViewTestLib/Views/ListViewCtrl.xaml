@@ -5,11 +5,13 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
              xmlns:cb="clr-namespace:ListViewTestLib.Views.Behaviours"
+             xmlns:cs="clr-namespace:ListViewTestLib.Views.StyleSelectors"
              xmlns:local="clr-namespace:ListViewTestLib.Views"
              mc:Ignorable="d" 
              d:DesignHeight="300" d:DesignWidth="300" FontSize="20"
              Loaded="Window_Loaded">
     <UserControl.Resources>
+        <cs:ListViewItemStyleSelector x:Key="LVStyleSelector"/>
         <Style x:Key="lineGridStyle" TargetType="{x:Type ListViewItem}">
             <!-- セル内の余白部分をクックしても行選択になるようにする -->
             <Setter Property="HorizontalContentAlignment" Value="Stretch" />
@@ -56,7 +58,7 @@
         <WrapPanel DockPanel.Dock="Bottom">
             <CheckBox Content="最新行を表示する" IsChecked="{Binding IsAutoScroll}" VerticalContentAlignment="Center"/>
         </WrapPanel>
-        <ListView x:Name="LVC" ItemsSource="{Binding Path=Items, UpdateSourceTrigger=PropertyChanged, NotifyOnTargetUpdated=True}" ItemContainerStyle="{StaticResource lineGridStyle}" TargetUpdated="ListBox_TargetUpdated">
+        <ListView x:Name="LVC" ItemsSource="{Binding Path=Items, UpdateSourceTrigger=PropertyChanged, NotifyOnTargetUpdated=True}" ItemContainerStyle="{StaticResource lineGridStyle}" ItemContainerStyleSelector="{DynamicResource LVStyleSelector}" TargetUpdated="ListBox_TargetUpdated">
             <ListView.View>
                 <GridView>
                     <GridViewColumn DisplayMemberBinding="{Binding Path=LogDate,StringFormat=MM/dd\ HH:mm:ss.fff}">
