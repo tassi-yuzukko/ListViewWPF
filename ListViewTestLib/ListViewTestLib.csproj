@@ -78,6 +78,7 @@
     <Reference Include="PresentationFramework" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="IMyListViewItems.cs" />
     <Compile Include="Views\StyleSelectors\ListViewItemStyleSelector.cs" />
     <Page Include="Views\ListViewCtrl.xaml">
       <Generator>MSBuild:Compile</Generator>

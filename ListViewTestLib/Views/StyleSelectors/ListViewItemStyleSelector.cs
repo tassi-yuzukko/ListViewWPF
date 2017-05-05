@@ -5,6 +5,7 @@ using System.Text;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
+using ListViewTestLib.Models;
 
 namespace ListViewTestLib.Views.StyleSelectors
 {
@@ -12,23 +13,13 @@ namespace ListViewTestLib.Views.StyleSelectors
 	{
 		public override Style SelectStyle(object item, DependencyObject container)
 		{
-			Style st = new Style();
+			var st = new Style();
 			st.TargetType = typeof(ListViewItem);
-			Setter backGroundSetter = new Setter();
-			backGroundSetter.Property = ListViewItem.BackgroundProperty;
-			ListView listView =
-				ItemsControl.ItemsControlFromItemContainer(container)
-				  as ListView;
-			int index =
-				listView.ItemContainerGenerator.IndexFromContainer(container);
-			if (index % 2 == 0)
-			{
-				backGroundSetter.Value = Brushes.LightBlue;
-			}
-			else
-			{
-				backGroundSetter.Value = Brushes.Beige;
-			}
+
+			var backGroundSetter = new Setter();
+			backGroundSetter.Property = Control.BackgroundProperty;
+			backGroundSetter.Value = (item as IMyListViewItems).GetListViewRowColor();
+
 			st.Setters.Add(backGroundSetter);
 			return st;
 		}

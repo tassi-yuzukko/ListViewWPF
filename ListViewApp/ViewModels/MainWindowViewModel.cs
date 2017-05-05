@@ -28,7 +28,7 @@ namespace ListViewApp.ViewModels
 			{
 				Thread.Sleep(10);
 
-				ListViewItems item = new ListViewItems{ LogDate = DateTime.Now, LogType = ListViewLogType.recv, LogStr = i.ToString(), };
+				ListViewItems item = new ListViewItems { LogDate = DateTime.Now, LogType = (i % 2) == 0 ? ListViewLogType.recv : ListViewLogType.send, LogStr = i.ToString(), };
 				_listViewCtrl.AddLog(item);
 			}
 		}

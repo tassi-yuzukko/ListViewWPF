@@ -12,53 +12,12 @@
              Loaded="Window_Loaded">
     <UserControl.Resources>
         <cs:ListViewItemStyleSelector x:Key="LVStyleSelector"/>
-        <Style x:Key="lineGridStyle" TargetType="{x:Type ListViewItem}">
-            <!-- セル内の余白部分をクックしても行選択になるようにする -->
-            <Setter Property="HorizontalContentAlignment" Value="Stretch" />
-            <Setter Property="Template">
-                <Setter.Value>
-                    <ControlTemplate TargetType="{x:Type ListViewItem}">
-                        <Grid Name="background">
-                            <ContentControl Name="foreground">
-                                <GridViewRowPresenter Name="rowPresenter"/>
-                            </ContentControl>
-                            <ItemsControl ItemsSource="{Binding ElementName=rowPresenter, Path=Columns}">
-                                <ItemsControl.ItemsPanel>
-                                    <ItemsPanelTemplate>
-                                        <StackPanel Orientation="Horizontal" />
-                                    </ItemsPanelTemplate>
-                                </ItemsControl.ItemsPanel>
-
-                                <ItemsControl.ItemTemplate>
-                                    <DataTemplate>
-                                        <Border Margin="1,0,0,0"
-                                        BorderBrush="Gray"
-                                        BorderThickness="0,0,1,1" 
-                                        Width="{Binding ActualWidth}"/>
-                                    </DataTemplate>
-                                </ItemsControl.ItemTemplate>
-                            </ItemsControl>
-                        </Grid>
-                        <ControlTemplate.Triggers>
-                            <Trigger Property="IsSelected" Value="True">
-                                <Setter TargetName="background"
-                                Property="Background"
-                                Value="{x:Static SystemColors.HighlightBrush}" />
-                                <Setter TargetName="foreground" 
-                                Property="Foreground"
-                                Value="{x:Static SystemColors.HighlightTextBrush}" />
-                            </Trigger>
-                        </ControlTemplate.Triggers>
-                    </ControlTemplate>
-                </Setter.Value>
-            </Setter>
-        </Style>
     </UserControl.Resources>
     <DockPanel>
         <WrapPanel DockPanel.Dock="Bottom">
             <CheckBox Content="最新行を表示する" IsChecked="{Binding IsAutoScroll}" VerticalContentAlignment="Center"/>
         </WrapPanel>
-        <ListView x:Name="LVC" ItemsSource="{Binding Path=Items, UpdateSourceTrigger=PropertyChanged, NotifyOnTargetUpdated=True}" ItemContainerStyle="{StaticResource lineGridStyle}" ItemContainerStyleSelector="{DynamicResource LVStyleSelector}" TargetUpdated="ListBox_TargetUpdated">
+        <ListView x:Name="LVC" ItemsSource="{Binding Path=Items, UpdateSourceTrigger=PropertyChanged, NotifyOnTargetUpdated=True}" ItemContainerStyleSelector="{DynamicResource LVStyleSelector}" TargetUpdated="ListBox_TargetUpdated">
             <ListView.View>
                 <GridView>
                     <GridViewColumn DisplayMemberBinding="{Binding Path=LogDate,StringFormat=MM/dd\ HH:mm:ss.fff}">
@@ -73,6 +32,5 @@
                 </GridView>
             </ListView.View>
         </ListView>
-
     </DockPanel>
 </UserControl>
