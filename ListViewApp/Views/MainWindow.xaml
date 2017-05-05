@@ -6,8 +6,9 @@
         xmlns:lv="clr-namespace:ListViewTestLib.Views;assembly=ListViewTestLib"
         xmlns:local="clr-namespace:ListViewApp.Views"
         mc:Ignorable="d"
-        Title="MainWindow" Height="336.757" Width="436.081">
+        Title="MainWindow" Height="336.757" Width="436.081" FontSize="20">
     <Grid>
-        <lv:ListViewCtrl x:Name="LVC"/>
+        <lv:ListViewCtrl x:Name="LVC" Margin="0,0,0,53"/>
+        <Button Content="Button" HorizontalAlignment="Left" Height="38" Margin="10,258,0,0" VerticalAlignment="Top" Width="86" Command="{Binding AddLogCommand}"/>
     </Grid>
 </Window>

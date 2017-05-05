@@ -7,30 +7,33 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using ListViewTestLib.Models;
+using Livet.Commands;
 
 namespace ListViewApp.ViewModels
 {
 	class MainWindowViewModel :ViewModel
 	{
 		private ListViewCtrlViewModel _listViewCtrl;
+		private int i;
 
 		public MainWindowViewModel(ListViewCtrlViewModel listViewCtrl)
 		{
 			_listViewCtrl = listViewCtrl;
-
-			// 疑似処理スレッド作成
-			Task.Factory.StartNew(DummyAddLog);
 		}
 
 		private void DummyAddLog()
 		{
-			for (int i=0; i<1000; i++)
+			int max = i + 100;
+			for (; i< max; i++)
 			{
-				Thread.Sleep(1000);
+				Thread.Sleep(10);
 
 				ListViewItems item = new ListViewItems{ LogDate = DateTime.Now, LogType = ListViewLogType.recv, LogStr = i.ToString(), };
 				_listViewCtrl.AddLog(item);
 			}
 		}
+
+		private ViewModelCommand _addLogCommand;
+		public ViewModelCommand AddLogCommand => (_addLogCommand = _addLogCommand ?? new ViewModelCommand(() => { Task.Factory.StartNew(DummyAddLog); }));
 	}
 }

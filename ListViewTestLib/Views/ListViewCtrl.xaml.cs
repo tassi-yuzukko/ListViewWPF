@@ -1,6 +1,7 @@
 ﻿using ListViewTestLib.ViewModels;
 using System;
 using System.Collections.Generic;
+using System.Collections.Specialized;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -30,7 +31,16 @@ namespace ListViewTestLib.Views
 
 		private void Window_Loaded(object sender, RoutedEventArgs e)
 		{
-			LVC.DataContext = (this.DataContext as ListViewCtrlViewModel).Items;
+			//LVC.DataContext = (this.DataContext as ListViewCtrlViewModel).Items;
+		}
+
+		private void ListBox_TargetUpdated(object sender, DataTransferEventArgs e)
+		{
+			(LVC.ItemsSource as INotifyCollectionChanged).CollectionChanged += new NotifyCollectionChangedEventHandler(listBox_CollectionChanged);
+		}
+		void listBox_CollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
+		{
+			this.LVC.ScrollIntoView(this.LVC.Items[this.LVC.Items.Count - 1]); 
 		}
 	}
 }

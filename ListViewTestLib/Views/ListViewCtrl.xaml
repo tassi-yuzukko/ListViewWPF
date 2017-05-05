@@ -51,17 +51,17 @@
         </Style>
     </UserControl.Resources>
     <Grid>
-        <ListView x:Name="LVC" HorizontalAlignment="Stretch" Height="auto" VerticalAlignment="Stretch" Width="auto" Grid.RowSpan="2" ItemsSource="{Binding}" ItemContainerStyle="{StaticResource lineGridStyle}">
+        <ListView x:Name="LVC" ItemsSource="{Binding Path=Items, UpdateSourceTrigger=PropertyChanged, NotifyOnTargetUpdated=True}" ItemContainerStyle="{StaticResource lineGridStyle}" TargetUpdated="ListBox_TargetUpdated">
             <ListView.View>
                 <GridView>
                     <GridViewColumn DisplayMemberBinding="{Binding Path=LogDate,StringFormat=MM/dd\ HH:mm:ss.fff}">
-                        <GridViewColumnHeader Content="日時" Tag="Date" />
+                        <GridViewColumnHeader IsEnabled="True" Foreground="Black" Content="日時"/>
                     </GridViewColumn>
                     <GridViewColumn DisplayMemberBinding="{Binding Path=LogType}">
-                        <GridViewColumnHeader Content="ログ種別" Tag="Type" />
+                        <GridViewColumnHeader IsEnabled="True" Foreground="Black" Content="ログ種別"/>
                     </GridViewColumn>
                     <GridViewColumn DisplayMemberBinding="{Binding Path=LogStr}">
-                        <GridViewColumnHeader Content="内容" Tag="LogStr" />
+                        <GridViewColumnHeader IsEnabled="True" Foreground="Black" Content="内容"/>
                     </GridViewColumn>
                 </GridView>
             </ListView.View>

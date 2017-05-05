@@ -27,8 +27,6 @@ namespace ListViewApp.Views
 			InitializeComponent();
 
 			this.DataContext = new MainWindowViewModel((this.LVC.DataContext as ListViewCtrlViewModel));
-
-			
 		}
 	}
 }
