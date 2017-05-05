@@ -28,7 +28,9 @@ namespace ListViewApp.ViewModels
 			{
 				Thread.Sleep(10);
 
-				LogRowData item = new LogRowData { LogType = (i % 2) == 0 ? ListViewLogType.recv : ListViewLogType.send, LogStr = i.ToString(), };
+				byte[] bytes = { (byte)i, (byte)'t', (byte)'e', (byte)'s', (byte)'t', };
+
+				LogRowData item = new LogRowData { LogType = (i % 2) == 0 ? ListViewLogType.recv : ListViewLogType.send, LogBytes = bytes, };
 				_listViewCtrl.AddLog(item);
 			}
 		}

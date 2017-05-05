@@ -79,12 +79,13 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="IMyListViewItems.cs" />
+    <Compile Include="ViewModels\ListViewConverter.cs" />
     <Compile Include="Views\StyleSelectors\ListViewItemStyleSelector.cs" />
     <Page Include="Views\ListViewCtrl.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Compile Include="Models\ListViewItems.cs" />
+    <Compile Include="Models\LogRowData.cs" />
     <Compile Include="ViewModels\ListViewCtrlViewModel.cs" />
     <Compile Include="Views\Behaviours\ListViewHeaderAutoResizeBehavior.cs" />
     <Compile Include="Views\ListViewCtrl.xaml.cs">

@@ -15,8 +15,9 @@
     </UserControl.Resources>
     <DockPanel>
         <WrapPanel DockPanel.Dock="Bottom">
-            <CheckBox Content="最新行を表示する" IsChecked="{Binding IsAutoScroll}" VerticalContentAlignment="Center"/>
-            <Button Content="ログをクリア" Margin="10,0,0,0" Command="{Binding ClearLogCommand}" />
+            <CheckBox Content="最新行を表示する" Margin="0,0,10,0" IsChecked="{Binding IsAutoScroll}" VerticalContentAlignment="Center"/>
+            <Button Content="ログをクリア" Margin="0,0,10,0" Command="{Binding ClearLogCommand}" />
+            <CheckBox Content="16進数で表示"  Margin="0,0,10,0" IsChecked="{Binding IsHex}" VerticalContentAlignment="Center"/>
         </WrapPanel>
         <ListView x:Name="LVC" ItemsSource="{Binding Path=Items, UpdateSourceTrigger=PropertyChanged, NotifyOnTargetUpdated=True}" ItemContainerStyleSelector="{DynamicResource LVStyleSelector}" TargetUpdated="ListBox_TargetUpdated">
             <ListView.View>

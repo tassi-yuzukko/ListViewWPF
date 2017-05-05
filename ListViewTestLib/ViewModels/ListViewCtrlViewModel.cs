@@ -8,6 +8,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Controls;
 using System.Windows.Data;
+using System.Windows.Media;
 
 namespace ListViewTestLib.ViewModels
 {
@@ -21,13 +22,15 @@ namespace ListViewTestLib.ViewModels
 			IsAutoScroll = true;
 		}
 
-		readonly DispatcherCollection<LogRowData> _items = new DispatcherCollection<LogRowData>(DispatcherHelper.UIDispatcher);
-		public DispatcherCollection<LogRowData> Items { get { return _items; } }
+		readonly DispatcherCollection<ListViewConverter> _items = new DispatcherCollection<ListViewConverter>(DispatcherHelper.UIDispatcher);
+		public DispatcherCollection<ListViewConverter> Items { get { return _items; } }
 
 		public bool IsAutoScroll { get; set; }
 
 		private ViewModelCommand _clearLogCommand;
 		public ViewModelCommand ClearLogCommand => (_clearLogCommand = _clearLogCommand ?? new ViewModelCommand(()=> { _items.Clear(); }));
+
+		public bool IsHex { get; set; }
 
 		/// <summary>
 		/// ログ追加
@@ -37,7 +40,7 @@ namespace ListViewTestLib.ViewModels
 		{
 			if(rowData != null)
 			{
-				_items?.Add(rowData);
+				_items?.Add(new ListViewConverter(rowData, IsHex));
 			}
 		}
 
