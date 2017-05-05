@@ -15,11 +15,27 @@ namespace ListViewTestLib.Models
 		recv,
 	}
 
-	public class ListViewItems : IMyListViewItems
+	public class LogRowData : IMyListViewItems
 	{
-		public DateTime LogDate { get; set; }
+		private DateTime _logDate;
+		public string LogDate
+		{
+			get
+			{
+				return _logDate.ToString("MM/dd HH:mm:ss.fff");
+			}
+		}
 		public ListViewLogType LogType { get; set; }
 		public string LogStr { get; set; }
+
+		/// <summary>
+		/// コンストラクタ
+		/// </summary>
+		public LogRowData()
+		{
+			// 現在の時刻を設定
+			_logDate = DateTime.Now;
+		}
 
 		/// <summary>
 		/// リストビュー上で表示する際の、行の色を返す

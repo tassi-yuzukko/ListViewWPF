@@ -16,11 +16,12 @@
     <DockPanel>
         <WrapPanel DockPanel.Dock="Bottom">
             <CheckBox Content="最新行を表示する" IsChecked="{Binding IsAutoScroll}" VerticalContentAlignment="Center"/>
+            <Button Content="ログをクリア" Margin="10,0,0,0" Command="{Binding ClearLogCommand}" />
         </WrapPanel>
         <ListView x:Name="LVC" ItemsSource="{Binding Path=Items, UpdateSourceTrigger=PropertyChanged, NotifyOnTargetUpdated=True}" ItemContainerStyleSelector="{DynamicResource LVStyleSelector}" TargetUpdated="ListBox_TargetUpdated">
             <ListView.View>
                 <GridView>
-                    <GridViewColumn DisplayMemberBinding="{Binding Path=LogDate,StringFormat=MM/dd\ HH:mm:ss.fff}">
+                    <GridViewColumn DisplayMemberBinding="{Binding Path=LogDate}">
                         <GridViewColumnHeader IsEnabled="True" Foreground="Black" Content="日時"/>
                     </GridViewColumn>
                     <GridViewColumn DisplayMemberBinding="{Binding Path=LogType}">

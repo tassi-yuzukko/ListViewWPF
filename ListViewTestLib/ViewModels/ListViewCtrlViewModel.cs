@@ -1,5 +1,6 @@
 ﻿using ListViewTestLib.Models;
 using Livet;
+using Livet.Commands;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -20,20 +21,23 @@ namespace ListViewTestLib.ViewModels
 			IsAutoScroll = true;
 		}
 
-		readonly DispatcherCollection<ListViewItems> _items = new DispatcherCollection<ListViewItems>(DispatcherHelper.UIDispatcher);
-		public DispatcherCollection<ListViewItems> Items { get { return _items; } }
+		readonly DispatcherCollection<LogRowData> _items = new DispatcherCollection<LogRowData>(DispatcherHelper.UIDispatcher);
+		public DispatcherCollection<LogRowData> Items { get { return _items; } }
 
-		public bool IsAutoScroll { get; set; } 
+		public bool IsAutoScroll { get; set; }
+
+		private ViewModelCommand _clearLogCommand;
+		public ViewModelCommand ClearLogCommand => (_clearLogCommand = _clearLogCommand ?? new ViewModelCommand(()=> { _items.Clear(); }));
 
 		/// <summary>
 		/// ログ追加
 		/// </summary>
 		/// <param name="rowData"></param>
-		public void AddLog(ListViewItems rowData)
+		public void AddLog(LogRowData rowData)
 		{
 			if(rowData != null)
 			{
-				Items?.Add(rowData);
+				_items?.Add(rowData);
 			}
 		}
 
@@ -45,7 +49,10 @@ namespace ListViewTestLib.ViewModels
 		{
 			if (IsAutoScroll)
 			{
-				lv?.ScrollIntoView(lv.Items[lv.Items.Count - 1]);
+				if(lv?.Items.Count > 0)
+				{
+					lv?.ScrollIntoView(lv.Items[lv.Items.Count - 1]);
+				}
 			}
 			//foreach (GridViewColumn column in (lv.View as GridView).Columns)
 			//{
