@@ -84,6 +84,7 @@
     </Page>
     <Compile Include="Models\ListViewItems.cs" />
     <Compile Include="ViewModels\ListViewCtrlViewModel.cs" />
+    <Compile Include="Views\Behaviours\ListViewHeaderAutoResizeBehavior.cs" />
     <Compile Include="Views\ListViewCtrl.xaml.cs">
       <DependentUpon>ListViewCtrl.xaml</DependentUpon>
       <SubType>Code</SubType>

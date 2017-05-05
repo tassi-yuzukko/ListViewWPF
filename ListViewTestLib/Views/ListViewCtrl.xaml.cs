@@ -40,7 +40,7 @@ namespace ListViewTestLib.Views
 		}
 		void listBox_CollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
 		{
-			this.LVC.ScrollIntoView(this.LVC.Items[this.LVC.Items.Count - 1]); 
+			(this.DataContext as ListViewCtrlViewModel).AutoScroll(this.LVC);
 		}
 	}
 }

@@ -3,9 +3,11 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
+             xmlns:cb="clr-namespace:ListViewTestLib.Views.Behaviours"
              xmlns:local="clr-namespace:ListViewTestLib.Views"
              mc:Ignorable="d" 
-             d:DesignHeight="300" d:DesignWidth="300"
+             d:DesignHeight="300" d:DesignWidth="300" FontSize="20"
              Loaded="Window_Loaded">
     <UserControl.Resources>
         <Style x:Key="lineGridStyle" TargetType="{x:Type ListViewItem}">
@@ -50,7 +52,10 @@
             </Setter>
         </Style>
     </UserControl.Resources>
-    <Grid>
+    <DockPanel>
+        <WrapPanel DockPanel.Dock="Bottom">
+            <CheckBox Content="最新行を表示する" IsChecked="{Binding IsAutoScroll}" VerticalContentAlignment="Center"/>
+        </WrapPanel>
         <ListView x:Name="LVC" ItemsSource="{Binding Path=Items, UpdateSourceTrigger=PropertyChanged, NotifyOnTargetUpdated=True}" ItemContainerStyle="{StaticResource lineGridStyle}" TargetUpdated="ListBox_TargetUpdated">
             <ListView.View>
                 <GridView>
@@ -67,5 +72,5 @@
             </ListView.View>
         </ListView>
 
-    </Grid>
+    </DockPanel>
 </UserControl>
