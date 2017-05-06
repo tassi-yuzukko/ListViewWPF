@@ -66,7 +66,7 @@ namespace ListViewTestLib.ViewModels
 			if(rowData != null)
 			{
 				_origDataList?.Add(rowData);
-				AddLogRowDataOnViewItems(rowData);
+				AddLogRowDataOnViewItems(new List<LogRowData> { rowData });
 			}
 		}
 
@@ -91,30 +91,34 @@ namespace ListViewTestLib.ViewModels
 			_viewItems.Clear();
 
 			// 追加しなおし
-			foreach (var data in _origDataList)
-			{
-				AddLogRowDataOnViewItems(data);
-			}
+			AddLogRowDataOnViewItems(_origDataList);
 		}
 
 		/// <summary>
 		/// 表示用ログリストにデータを追加
 		/// </summary>
 		/// <param name="rowData"></param>
-		private void AddLogRowDataOnViewItems(LogRowData rowData)
+		private void AddLogRowDataOnViewItems(List<LogRowData> rowDataList)
 		{
-			// 状態問い合わせとイベントなしの状態通知は表示しない
-			if (_isSelected) {
-				// 簡易的にrecvのみ表示としておく
-				if (rowData.LogType != ListViewLogType.recv)
+			// 無理やりLINQ使ってみる
+			rowDataList
+				.Where(data => !_isSelected ? true : FilterNoEventLog(data))  // 状態問い合わせとイベントなしの状態通知は表示しない
+				.ToList().ForEach(rowData =>
 				{
-					return;
-				}
-			}
+					var item = new ListViewConverter(rowData);
+					item.LogBytesToString = _isHex ? (Func<byte[], string>)BytesToStringHex : BytesToStringAscii;
+					_viewItems?.Add(item);
+				});
+		}
 
-			var item = new ListViewConverter(rowData);
-			item.LogBytesToString = _isHex ? (Func<byte[], string>)BytesToStringHex : BytesToStringAscii;
-			_viewItems?.Add(item);
+		/// <summary>
+		/// とりあえず疑似的にrecvログのみ表示するようにしている
+		/// </summary>
+		/// <param name="rowData"></param>
+		/// <returns></returns>
+		private bool FilterNoEventLog(LogRowData rowData)
+		{
+			return rowData.LogType == ListViewLogType.recv;
 		}
 
 		/// <summary>
@@ -126,10 +130,13 @@ namespace ListViewTestLib.ViewModels
 		{
 			string ret = "";
 
-			foreach (var val in bytes)
+			var strs = bytes
+				.Select(val => Convert.ToInt32(val))            // データを数値に変換
+				.Select(val => String.Format("{0:X2} ", val));	// 数値を文字列に変換
+
+			foreach (var str in strs)
 			{
-				int integral = Convert.ToInt32(val);
-				ret += String.Format("{0:X2} ", integral);
+				ret += str;
 			}
 
 			return ret;
@@ -144,17 +151,13 @@ namespace ListViewTestLib.ViewModels
 		{
 			string ret = "";
 
-			foreach (var val in bytes)
+			var strs = bytes
+				.Select(chr => Convert.ToChar(chr))				// データを文字に変換
+				.Select(chr => !Char.IsControl(chr) ? chr + " " : String.Format("{0:X2} ", (int)chr) + " ");  // 文字を文字列に変換
+
+			foreach (var str in strs)
 			{
-				char charactor = Convert.ToChar(val);
-				if (!Char.IsControl(charactor))
-				{
-					ret += charactor + " ";
-				}
-				else
-				{
-					ret += String.Format("{0:X2} ", (int)charactor) + " ";
-				}
+				ret += str;
 			}
 
 			return ret;
