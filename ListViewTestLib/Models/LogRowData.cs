@@ -20,5 +20,10 @@ namespace ListViewTestLib.Models
 		public DateTime LogDate { get; set; }
 		public ListViewLogType LogType { get; set; }
 		public byte [] LogBytes { get; set; }
+
+		public LogRowData()
+		{
+			LogDate = DateTime.Now;
+		}
 	}
 }

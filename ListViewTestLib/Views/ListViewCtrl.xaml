@@ -18,8 +18,9 @@
             <CheckBox Content="最新行を表示する" Margin="0,0,10,0" IsChecked="{Binding IsAutoScroll}" VerticalContentAlignment="Center"/>
             <Button Content="ログをクリア" Margin="0,0,10,0" Command="{Binding ClearLogCommand}" />
             <CheckBox Content="16進数で表示"  Margin="0,0,10,0" IsChecked="{Binding IsHex}" VerticalContentAlignment="Center"/>
+            <CheckBox Content="状態問い合わせやイベントのない応答は表示しない"  Margin="0,0,10,0" IsChecked="{Binding IsSelected}" VerticalContentAlignment="Center"/>
         </WrapPanel>
-        <ListView x:Name="LVC" ItemsSource="{Binding Path=Items, UpdateSourceTrigger=PropertyChanged, NotifyOnTargetUpdated=True}" ItemContainerStyleSelector="{DynamicResource LVStyleSelector}" TargetUpdated="ListBox_TargetUpdated">
+        <ListView x:Name="LVC" ItemsSource="{Binding Path=ViewItems, UpdateSourceTrigger=PropertyChanged, NotifyOnTargetUpdated=True}" ItemContainerStyleSelector="{DynamicResource LVStyleSelector}" TargetUpdated="ListBox_TargetUpdated">
             <ListView.View>
                 <GridView>
                     <GridViewColumn DisplayMemberBinding="{Binding Path=LogDate}">

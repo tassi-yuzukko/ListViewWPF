@@ -23,8 +23,6 @@ namespace ListViewTestLib.ViewModels
 		{
 			_logRowData = logRowData;
 			_isHex = isHex;
-
-			_logRowData.LogDate = DateTime.Now;
 		}
 
 		public string LogType => _logRowData.LogType.ToString();
