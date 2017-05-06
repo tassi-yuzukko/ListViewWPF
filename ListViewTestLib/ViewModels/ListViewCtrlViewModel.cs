@@ -26,7 +26,7 @@ namespace ListViewTestLib.ViewModels
 		}
 
 		readonly DispatcherCollection<ListViewConverter> _viewItems = new DispatcherCollection<ListViewConverter>(DispatcherHelper.UIDispatcher);
-		public DispatcherCollection<ListViewConverter> ViewItems { get { return _viewItems; } }
+		public DispatcherCollection<ListViewConverter> ViewItems => _viewItems;
 
 		public bool IsAutoScroll { get; set; }
 
@@ -65,8 +65,8 @@ namespace ListViewTestLib.ViewModels
 		{
 			if(rowData != null)
 			{
-				_viewItems?.Add(new ListViewConverter(rowData, IsHex));
 				_origDataList?.Add(rowData);
+				AddLogRowDataOnViewItems(rowData);
 			}
 		}
 
@@ -90,26 +90,74 @@ namespace ListViewTestLib.ViewModels
 			// 表示上のログをいったんすべて削除
 			_viewItems.Clear();
 
+			// 追加しなおし
+			foreach (var data in _origDataList)
+			{
+				AddLogRowDataOnViewItems(data);
+			}
+		}
+
+		/// <summary>
+		/// 表示用ログリストにデータを追加
+		/// </summary>
+		/// <param name="rowData"></param>
+		private void AddLogRowDataOnViewItems(LogRowData rowData)
+		{
 			// 状態問い合わせとイベントなしの状態通知は表示しない
-			if (_isSelected)
-			{
-				foreach(var data in _origDataList)
+			if (_isSelected) {
+				// 簡易的にrecvのみ表示としておく
+				if (rowData.LogType != ListViewLogType.recv)
 				{
-					// 簡易的にrecvのみ表示としておく
-					if(data.LogType == ListViewLogType.recv)
-					{
-						_viewItems.Add(new ListViewConverter(data, _isHex));
-					}
+					return;
 				}
 			}
-			// 全てのログを表示する
-			else
+
+			var item = new ListViewConverter(rowData);
+			item.LogBytesToString = _isHex ? (Func<byte[], string>)BytesToStringHex : BytesToStringAscii;
+			_viewItems?.Add(item);
+		}
+
+		/// <summary>
+		/// ログを１６進数で出力する
+		/// </summary>
+		/// <param name="bytes"></param>
+		/// <returns></returns>
+		private string BytesToStringHex(byte[] bytes)
+		{
+			string ret = "";
+
+			foreach (var val in bytes)
 			{
-				foreach (var data in _origDataList)
+				int integral = Convert.ToInt32(val);
+				ret += String.Format("{0:X2} ", integral);
+			}
+
+			return ret;
+		}
+
+		/// <summary>
+		/// ログをASCII文字で出力する
+		/// </summary>
+		/// <param name="bytes"></param>
+		/// <returns></returns>
+		private string BytesToStringAscii(byte[] bytes)
+		{
+			string ret = "";
+
+			foreach (var val in bytes)
+			{
+				char charactor = Convert.ToChar(val);
+				if (!Char.IsControl(charactor))
 				{
-					_viewItems.Add(new ListViewConverter(data, _isHex));
+					ret += charactor + " ";
+				}
+				else
+				{
+					ret += String.Format("{0:X2} ", (int)charactor) + " ";
 				}
 			}
+
+			return ret;
 		}
 	}
 }
