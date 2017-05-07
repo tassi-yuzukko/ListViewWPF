@@ -20,6 +20,9 @@ namespace ListViewTestLib.ViewModels
 		// 「状態問い合わせとイベントなしの状態通知は表示しない」の条件式
 		public Func<LogRowData, bool> FilterNoEventLogDelegate { get; set; } = (x) => { return true; };
 
+		// 制御文字を文字列に変換する条件式
+		public Func<char, string> ControlCharToStringDelegate { get; set; } = (x) => { return x.ToString(); };
+
 		/// <summary>
 		/// コンストラクタ
 		/// </summary>
@@ -135,7 +138,7 @@ namespace ListViewTestLib.ViewModels
 		{
 			return string.Join(" ", bytes
 				.Select(chr => Convert.ToChar(chr))				// データを文字に変換
-				.Select(chr => !Char.IsControl(chr) ? chr.ToString() : String.Format("{0:X2}", (int)chr)));  // 文字を文字列に変換
+				.Select(chr => !Char.IsControl(chr) ? chr.ToString() : ControlCharToStringDelegate(chr)));  // 文字を文字列に変換
 		}
 	}
 }

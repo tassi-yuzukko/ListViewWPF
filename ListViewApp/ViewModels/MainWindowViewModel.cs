@@ -20,6 +20,7 @@ namespace ListViewApp.ViewModels
 		{
 			_listViewCtrl = listViewCtrl;
 			_listViewCtrl.FilterNoEventLogDelegate = FilterNoEventLog;
+			_listViewCtrl.ControlCharToStringDelegate = ControlCharToString;
 		}
 
 		private void DummyAddLog()
@@ -48,6 +49,24 @@ namespace ListViewApp.ViewModels
 		private bool FilterNoEventLog(LogRowData rowData)
 		{
 			return rowData.LogType == ListViewLogType.recv;
+		}
+
+		/// <summary>
+		/// 制御文字を文字列に変換する
+		/// </summary>
+		/// <param name="chr"></param>
+		/// <returns></returns>
+		private string ControlCharToString(char chr)
+		{
+			switch (chr)
+			{
+				case (char)0x02:
+					return "[STX]";
+				case (char)0x03:
+					return "[ETX]";
+				default:
+					return String.Format("{0:X2}", (int)chr);
+			}
 		}
 	}
 }
