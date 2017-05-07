@@ -19,6 +19,7 @@ namespace ListViewApp.ViewModels
 		public MainWindowViewModel(ListViewCtrlViewModel listViewCtrl)
 		{
 			_listViewCtrl = listViewCtrl;
+			_listViewCtrl.FilterNoEventLogDelegate = FilterNoEventLog;
 		}
 
 		private void DummyAddLog()
@@ -38,5 +39,15 @@ namespace ListViewApp.ViewModels
 
 		private ViewModelCommand _addLogCommand;
 		public ViewModelCommand AddLogCommand => (_addLogCommand = _addLogCommand ?? new ViewModelCommand(() => { Task.Factory.StartNew(DummyAddLog); }));
+
+		/// <summary>
+		/// とりあえず疑似的にrecvログのみ表示するようにしている
+		/// </summary>
+		/// <param name="rowData"></param>
+		/// <returns></returns>
+		private bool FilterNoEventLog(LogRowData rowData)
+		{
+			return rowData.LogType == ListViewLogType.recv;
+		}
 	}
 }

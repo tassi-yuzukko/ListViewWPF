@@ -17,6 +17,9 @@ namespace ListViewTestLib.ViewModels
 		// 表示用のリストではなく、オリジナルデータのリスト
 		List<LogRowData> _origDataList = new List<LogRowData>();
 
+		// 「状態問い合わせとイベントなしの状態通知は表示しない」の条件式
+		public Func<LogRowData, bool> FilterNoEventLogDelegate { get; set; } = (x) => { return true; };
+
 		/// <summary>
 		/// コンストラクタ
 		/// </summary>
@@ -102,23 +105,13 @@ namespace ListViewTestLib.ViewModels
 		{
 			// 無理やりLINQ使ってみる
 			rowDataList
-				.Where(data => !_isSelected ? true : FilterNoEventLog(data))  // 状態問い合わせとイベントなしの状態通知は表示しない
+				.Where(data => !_isSelected ? true : FilterNoEventLogDelegate(data))  // 状態問い合わせとイベントなしの状態通知は表示しない
 				.ToList().ForEach(rowData =>
 				{
 					var item = new ListViewConverter(rowData);
 					item.LogBytesToString = _isHex ? (Func<byte[], string>)BytesToStringHex : BytesToStringAscii;
 					_viewItems?.Add(item);
 				});
-		}
-
-		/// <summary>
-		/// とりあえず疑似的にrecvログのみ表示するようにしている
-		/// </summary>
-		/// <param name="rowData"></param>
-		/// <returns></returns>
-		private bool FilterNoEventLog(LogRowData rowData)
-		{
-			return rowData.LogType == ListViewLogType.recv;
 		}
 
 		/// <summary>
