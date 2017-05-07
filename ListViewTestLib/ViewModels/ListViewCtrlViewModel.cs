@@ -121,18 +121,9 @@ namespace ListViewTestLib.ViewModels
 		/// <returns></returns>
 		private string BytesToStringHex(byte[] bytes)
 		{
-			string ret = "";
-
-			var strs = bytes
+			return string.Join(" ", bytes
 				.Select(val => Convert.ToInt32(val))            // データを数値に変換
-				.Select(val => String.Format("{0:X2} ", val));	// 数値を文字列に変換
-
-			foreach (var str in strs)
-			{
-				ret += str;
-			}
-
-			return ret;
+				.Select(val => String.Format("{0:X2}", val)));	// 数値を文字列に変換
 		}
 
 		/// <summary>
@@ -142,18 +133,9 @@ namespace ListViewTestLib.ViewModels
 		/// <returns></returns>
 		private string BytesToStringAscii(byte[] bytes)
 		{
-			string ret = "";
-
-			var strs = bytes
+			return string.Join(" ", bytes
 				.Select(chr => Convert.ToChar(chr))				// データを文字に変換
-				.Select(chr => !Char.IsControl(chr) ? chr + " " : String.Format("{0:X2} ", (int)chr) + " ");  // 文字を文字列に変換
-
-			foreach (var str in strs)
-			{
-				ret += str;
-			}
-
-			return ret;
+				.Select(chr => !Char.IsControl(chr) ? chr.ToString() : String.Format("{0:X2}", (int)chr)));  // 文字を文字列に変換
 		}
 	}
 }
