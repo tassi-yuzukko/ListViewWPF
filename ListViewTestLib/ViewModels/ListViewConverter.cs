@@ -41,6 +41,8 @@ namespace ListViewTestLib.ViewModels
 					return Brushes.LightPink;
 				case ListViewLogType.send:
 					return Brushes.LightBlue;
+				case ListViewLogType.others:
+					return Brushes.LightGreen;
 				default:
 					return Brushes.White;
 			}

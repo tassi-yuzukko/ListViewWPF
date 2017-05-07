@@ -13,6 +13,7 @@ namespace ListViewTestLib.Models
 	{
 		send,
 		recv,
+		others,
 	}
 
 	public class LogRowData

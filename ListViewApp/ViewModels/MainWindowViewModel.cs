@@ -23,6 +23,8 @@ namespace ListViewApp.ViewModels
 
 		private void DummyAddLog()
 		{
+			_listViewCtrl.AddLog(new LogRowData { LogType = ListViewLogType.others, LogBytes = new byte [] { 1, 3, 4, 5}, });
+
 			int max = i + 100;
 			for (; i< max; i++)
 			{
@@ -30,8 +32,7 @@ namespace ListViewApp.ViewModels
 
 				byte[] bytes = { (byte)i, (byte)'t', (byte)'e', (byte)'s', (byte)'t', };
 
-				LogRowData item = new LogRowData { LogType = (i % 2) == 0 ? ListViewLogType.recv : ListViewLogType.send, LogBytes = bytes, };
-				_listViewCtrl.AddLog(item);
+				_listViewCtrl.AddLog(new LogRowData { LogType = (i % 2) == 0 ? ListViewLogType.recv : ListViewLogType.send, LogBytes = bytes, });
 			}
 		}
 
